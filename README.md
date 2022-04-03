@@ -4,28 +4,20 @@ Easy, rich and fully validated [koa][] routing.
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
-[![Test coverage][codecov-image]][codecov-url]
-[![David deps][david-image]][david-url]
-[![npm download][download-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/koa-joi-router.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/koa-joi-router
-[travis-image]: https://img.shields.io/travis/koajs/joi-router.svg?style=flat-square
-[travis-url]: https://travis-ci.org/koajs/joi-router
-[codecov-image]: https://codecov.io/github/koajs/joi-router/coverage.svg?branch=master
-[codecov-url]: https://codecov.io/github/koajs/joi-router?branch=master
-[david-image]: https://img.shields.io/david/koajs/joi-router.svg?style=flat-square
-[david-url]: https://david-dm.org/koajs/joi-router
-[download-image]: https://img.shields.io/npm/dm/koa-joi-router.svg?style=flat-square
-[download-url]: https://npmjs.org/package/koa-joi-router
-[co]: https://github.com/tj/co
-[koa]: http://koajs.com
-[co-body]: https://github.com/visionmedia/co-body
-[await-busboy]: https://github.com/aheckmann/await-busboy
-[joi]: https://github.com/hapijs/joi
-[@koa/router]: https://github.com/koajs/router
-[generate api documentation]: https://github.com/a-s-o/koa-docs
-[path-to-regexp]: https://github.com/pillarjs/path-to-regexp
+### Notes about the module and the current sversion:
+
+I'm [Imed Jaberi](https://github.com/3imed-jaberi) a koa contributor and I have maintained many koa modules and I still do it. I have made a PR  to bump the `koa/joi-router` to `v9.0.0` but it's still spooned for a long time because unavailability of the owner (@aheckmann) who owns all access permissions and the inability of the koa team to get the access for the current time and for a long time...
+For that, and for the community which wants the new updates, I publish this module.
+
+You can check the opened PR on the origin repo [here][origin-joi-router-pr].
+
+Also, I would like to make an acknowledgment for people who help and/or follow [the original PR][origin-joi-router-pr];
+  - [Jiminikiz](https://github.com/jiminikiz)
+  - [Markus Dolic](https://github.com/yelworc)
+  - [Arash Karimzadeh](https://github.com/arashkay)
+  - [jongleberry](https://github.com/jonathanong)
+  - [miwnwski](https://github.com/miwnwski)
 
 #### Features:
 
@@ -704,6 +696,18 @@ admin.route({
 
 ## LICENSE
 
-[MIT](https://github.com/koajs/joi-router/blob/master/LICENSE)
+[MIT](LICENSE)
 
+[origin-joi-router-pr]: https://github.com/koajs/joi-router/pull/128
+[npm-image]: https://img.shields.io/npm/v/koa-joi-router.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/koa-joi-router
+[travis-image]: https://img.shields.io/travis/koajs/joi-router.svg?style=flat-square
+[travis-url]: https://travis-ci.org/koajs/joi-router
+[koa]: http://koajs.com
 [busboy]: https://github.com/mscdex/busboy#busboy-methods
+[co-body]: https://github.com/visionmedia/co-body
+[await-busboy]: https://github.com/aheckmann/await-busboy
+[joi]: https://github.com/hapijs/joi
+[@koa/router]: https://github.com/koajs/router
+[generate api documentation]: https://github.com/a-s-o/koa-docs
+[path-to-regexp]: https://github.com/pillarjs/path-to-regexp
