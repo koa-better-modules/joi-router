@@ -1,3 +1,16 @@
+9.0.0 / 2022-04-03
+==================
+
+- remove .npmignore file ❌
+- lint code through eslint 💅🏻
+- update LICENSE 🗝
+- update test code 🧪
+- improve coverage 💯
+- update all deps 🥡
+- remove some deps (last update on 25/03/2022) and used custom helpers and utils 📦
+- use ecmascript 6+ features ✨
+- update README.md 📋
+
 8.0.0 / 2021-04-26
 ==================
 
