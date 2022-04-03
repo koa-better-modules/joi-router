@@ -1,5 +1,5 @@
 /*!
- * koa-better-boom
+ * @koa-better-modules/joi-router
  *
  *
  * Copyright(c) 2021 Koa.js contributions
@@ -12,7 +12,7 @@
  * Module dependencies.
  */
 const assert = require('assert');
-const debug = require('debug')('koa-joi-router');
+const debug = require('debug')('@koa-better-modules/joi-router');
 const isGenFn = require('is-generator-function');
 const methods = require('http').METHODS.map(method => method.toLowerCase());
 const KoaRouter = require('@koa/router');

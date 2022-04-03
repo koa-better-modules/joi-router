@@ -43,7 +43,7 @@ async function errorHandler(ctx, next) {
   }
 }
 
-describe('koa-joi-router', () => {
+describe('@koa-better-modules/joi-router', () => {
   it('exposes a function', (done) => {
     assert.equal('function', typeof KoaJoiRouter);
     done();
