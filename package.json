@@ -1,5 +1,5 @@
 {
-  "name": "koa-joi-router",
+  "name": "@koa-better-modules/joi-router",
   "version": "8.0.0",
   "description": "Configurable, input validated routing for koa.",
   "main": "joi-router.js",
@@ -21,25 +21,19 @@
     "node": ">= 14"
   },
   "author": {
-    "name": "Aaron Heckmann",
-    "email": "aaron.heckmann+github@gmail.com"
+    "name": "Imed Jaberi",
+    "email": "imed-jaberi@outlook.com",
+    "url": "https://www.3imed-jaberi.com/"
   },
-  "contributors": [
-    {
-      "name": "Imed Jaberi",
-      "email": "imed_jebari@hotmail.fr",
-      "url": "https://www.3imed-jaberi.com/"
-    }
-  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/koajs/joi-router.git"
+    "url": "https://github.com/koa-better-modules/joi-router.git"
   },
   "bugs": {
-    "url": "https://github.com/koajs/joi-router/issues"
+    "url": "https://github.com/koa-better-modules/joi-router/issues"
   },
-  "homepage": "https://github.com/koajs/joi-router",
+  "homepage": "https://github.com/koa-better-modules/joi-router",
   "dependencies": {
     "@koa/router": "^10.1.1",
     "await-busboy": "^1.0.3",
