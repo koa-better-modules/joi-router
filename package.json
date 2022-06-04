@@ -1,6 +1,6 @@
 {
   "name": "@koa-better-modules/joi-router",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "Configurable, input validated routing for koa.",
   "main": "joi-router.js",
   "keywords": [
@@ -35,23 +35,23 @@
   },
   "homepage": "https://github.com/koa-better-modules/joi-router",
   "dependencies": {
+    "@fastify/busboy": "^1.0.0",
     "@koa/router": "^10.1.1",
-    "await-busboy": "^1.0.3",
+    "black-hole-stream": "^0.0.1",
     "clone": "^2.1.2",
     "co-body": "^6.1.0",
     "debug": "^4.3.4",
     "is-generator-function": "^1.0.10",
-    "joi": "^17.6.0",
-    "sliced": "^1.0.1"
+    "joi": "^17.6.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
-    "eslint": "^8.11.0",
+    "@babel/eslint-parser": "^7.18.2",
+    "eslint": "^8.17.0",
     "koa": "^2.13.4",
-    "mocha": "^9.2.2",
+    "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "supertest": "^6.2.2"
+    "supertest": "^6.2.3"
   },
   "eslintConfig": {
     "extends": [
