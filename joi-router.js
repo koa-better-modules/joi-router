@@ -3,6 +3,7 @@
  *
  *
  * Copyright(c) 2021 Koa.js contributions
+ * Copyright(c) 2022 imed jaberi
  * MIT Licensed
  */
 
@@ -14,12 +15,12 @@
 const assert = require('assert');
 const debug = require('debug')('@koa-better-modules/joi-router');
 const isGenFn = require('is-generator-function');
-const methods = require('http').METHODS.map(method => method.toLowerCase());
+const methods = require('./methods');
 const KoaRouter = require('@koa/router');
-const busboy = require('await-busboy');
+const busboy = require('./await-busboy');
 const parse = require('co-body');
 const Joi = require('joi');
-const slice = require('sliced');
+const slice = require('./sliced');
 const clone = require('clone');
 
 const OutputValidator = require('./output-validator');

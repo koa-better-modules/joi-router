@@ -6,8 +6,8 @@ const assert = require('assert');
 const request = require('supertest');
 const http = require('http');
 const Joi = require('joi');
-const methods = require('methods');
-const slice = require('sliced');
+const methods = require('../methods');
+const slice = require('../sliced');
 const MiddlewareGenerator = require('./test-utils').MiddlewareGenerator;
 
 function makeRouterApp(router) {
