@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": ["es2017"],
+        "allowJs": true,
+        // "checkJs": true,
+        "noEmit": true,
+        "strict": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "alwaysStrict": true,
+        "baseUrl": ".",
+        "typeRoots": [
+            "."
+        ],
+        "types": [],
+        "esModuleInterop": true
+    },
+    "exclude": ["test"]
+}
