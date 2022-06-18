@@ -1,6 +1,6 @@
 {
   "name": "@koa-better-modules/joi-router",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "description": "Configurable, input validated routing for koa.",
   "main": "joi-router.js",
   "types": "joi-router.d.ts",
