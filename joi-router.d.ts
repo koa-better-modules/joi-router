@@ -14,12 +14,12 @@ declare module 'koa' {
     }
 }
 
-interface createRouter {
-    (): createRouter.Router;
+interface KoaJoiRouter {
+    new (): KoaJoiRouter.Router;
     Joi: typeof Joi;
 }
 
-declare namespace createRouter {
+declare namespace KoaJoiRouter {
     type FullHandler = (ctx: Koa.Context, next: Koa.Next) => any;
     interface NestedHandler extends ReadonlyArray<Handler> {}
     type Handler = FullHandler | NestedHandler;
@@ -76,6 +76,6 @@ declare namespace createRouter {
     }
 }
 
-declare var createRouter: createRouter;
+declare var KoaJoiRouter: KoaJoiRouter;
 
-export = createRouter;
+export = KoaJoiRouter;
