@@ -1,41 +1,41 @@
-import koa = require ('koa');
-import router = require ('./joi-router');
+import Koa = require ('Koa');
+import Router = require ('./joi-router');
 
-const { Joi } = router;
+const { Joi } = Router;
 
-const spec1: router.Spec = {
+const spec1: Router.Spec = {
     path: '/user',
     method: 'POST',
-    handler: (ctx: koa.Context) => (ctx.body = ''),
+    handler: (ctx: Koa.Context) => (ctx.body = ''),
 };
 
-new router().route(spec1);
+new Router().route(spec1);
 
-const spec2: router.Spec = {
+const spec2: Router.Spec = {
     method: 'PATCH',
     path: '/user',
     validate: {
         type: 'json',
     },
-    handler: (ctx: koa.Context) => (ctx.status = 201),
+    handler: (ctx: Koa.Context) => (ctx.status = 201),
 };
 
-new router().route(spec2);
+new Router().route(spec2);
 
-const spec3: router.Spec = {
+const spec3: Router.Spec = {
     method: 'PATCH',
     path: '/user',
     validate: {
         type: 'json',
         body: Joi.any(),
     },
-    handler: (ctx: koa.Context) => (ctx.status = 201),
+    handler: (ctx: Koa.Context) => (ctx.status = 201),
     pre: (_ctx, next) => next(),
 };
 
-new router().route(spec3);
+new Router().route(spec3);
 
-const spec4: router.Spec = {
+const spec4: Router.Spec = {
     method: 'PATCH',
     path: '/user',
     validate: {
@@ -62,9 +62,9 @@ const spec4: router.Spec = {
     },
 };
 
-new router().route(spec4);
+new Router().route(spec4);
 
-const spec5: router.Spec = {
+const spec5: Router.Spec = {
     method: 'PUT',
     path: '/user',
     handler: ctx => {
@@ -74,20 +74,20 @@ const spec5: router.Spec = {
     meta: 'meta data',
 };
 
-new router().route(spec5);
+new Router().route(spec5);
 
-const spec6: router.Spec = {
+const spec6: Router.Spec = {
     method: 'GET',
     path: '/user',
-    handler: (ctx: koa.Context) => {
+    handler: (ctx: Koa.Context) => {
         ctx.status = 201;
         ctx.body = ctx.request.params;
     },
 };
 
-new router().route(spec6);
+new Router().route(spec6);
 
-const spec7: router.Spec = {
+const spec7: Router.Spec = {
     method: 'GET',
     path: '/user',
     validate: {
@@ -96,15 +96,15 @@ const spec7: router.Spec = {
             name: Joi.string(),
         },
     },
-    handler: (ctx: koa.Context) => {
+    handler: (ctx: Koa.Context) => {
         ctx.status = 201;
         ctx.body = ctx.request.params;
     },
 };
 
-new router().route(spec7);
+new Router().route(spec7);
 
-const spec8: router.Spec = {
+const spec8: Router.Spec = {
     method: 'POST',
     path: '/user',
     validate: {
@@ -112,27 +112,27 @@ const spec8: router.Spec = {
             authentication: Joi.string(),
         },
     },
-    handler: (ctx: koa.Context) => {
+    handler: (ctx: Koa.Context) => {
         ctx.status = 201;
         ctx.body = ctx.request.params;
     },
 };
 
-new router().route(spec8);
+new Router().route(spec8);
 
-new router().route([spec1, spec2, spec3]);
+new Router().route([spec1, spec2, spec3]);
 
-new router().routes.map(({ path }) => path);
+new Router().routes.map(({ path }) => path);
 
-const handler1 = async (ctx: koa.Context) => {
+const handler1 = async (ctx: Koa.Context) => {
     ctx.body = 'hello world';
 };
 
-new router().get('/', handler1);
+new Router().get('/', handler1);
 
-new router().get('/', { meta: { desc: 'desc' } }, handler1);
+new Router().get('/', { meta: { desc: 'desc' } }, handler1);
 
-new router().get(
+new Router().get(
     '/user',
     {
         validate: {
@@ -142,13 +142,13 @@ new router().get(
             },
         },
     },
-    (ctx: koa.Context) => {
+    (ctx: Koa.Context) => {
         ctx.status = 201;
         ctx.body = ctx.request.params;
     },
 );
 
-const spec9: router.Config = {
+const spec9: Router.Config = {
     validate: {
         body: {
             name: Joi.string(),
@@ -157,39 +157,39 @@ const spec9: router.Config = {
     },
 };
 
-const spec9Handler = (ctx: koa.Context) => {
+const spec9Handler = (ctx: Koa.Context) => {
     ctx.status = 201;
     ctx.body = ctx.request.params;
 };
 
-new router().get('/user', spec9, spec9Handler);
+new Router().get('/user', spec9, spec9Handler);
 
-new router().router.allowedMethods({ throw: true });
+new Router().Router.allowedMethods({ throw: true });
 
-const middleware1 = async (ctx: koa.Context, next: koa.Next) => {
+const middleware1 = async (ctx: Koa.Context, next: Koa.Next) => {
     console.log('middleware1');
     await next();
 };
 
-new router().get('/', middleware1, handler1);
+new Router().get('/', middleware1, handler1);
 
-const middleware2 = async (ctx: koa.Context, next: koa.Next) => {
+const middleware2 = async (ctx: Koa.Context, next: Koa.Next) => {
     console.log('middleware2');
     await next();
 };
 
-new router().get('/', [middleware1, middleware2], handler1);
+new Router().get('/', [middleware1, middleware2], handler1);
 
-new router().use(middleware1);
+new Router().use(middleware1);
 
-new router().use('/:id', middleware1);
+new Router().use('/:id', middleware1);
 
-new router().param('/:id', async (id: string, ctx: koa.Context, next: koa.Next) => {
+new Router().param('/:id', async (id: string, ctx: Koa.Context, next: Koa.Next) => {
     ctx.state.id = id;
     await next();
 });
 
-const config1: router.Config = {
+const config1: Router.Config = {
     validate: {
         type: 'multipart',
         multipartOptions: {
@@ -203,7 +203,7 @@ const config1: router.Config = {
         },
     },
 };
-const config2: router.Config = {
+const config2: Router.Config = {
     validate: {
         type: 'multipart',
         multipartOptions: {
@@ -215,4 +215,4 @@ const config2: router.Config = {
         },
     },
 };
-new router().get('/', config1, handler1);
+new Router().get('/', config1, handler1);
