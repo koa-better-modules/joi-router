@@ -9,7 +9,7 @@ const spec1: router.Spec = {
     handler: (ctx: koa.Context) => (ctx.body = ''),
 };
 
-router().route(spec1);
+new router().route(spec1);
 
 const spec2: router.Spec = {
     method: 'PATCH',
@@ -20,7 +20,7 @@ const spec2: router.Spec = {
     handler: (ctx: koa.Context) => (ctx.status = 201),
 };
 
-router().route(spec2);
+new router().route(spec2);
 
 const spec3: router.Spec = {
     method: 'PATCH',
@@ -33,7 +33,7 @@ const spec3: router.Spec = {
     pre: (_ctx, next) => next(),
 };
 
-router().route(spec3);
+new router().route(spec3);
 
 const spec4: router.Spec = {
     method: 'PATCH',
@@ -62,7 +62,7 @@ const spec4: router.Spec = {
     },
 };
 
-router().route(spec4);
+new router().route(spec4);
 
 const spec5: router.Spec = {
     method: 'PUT',
@@ -74,7 +74,7 @@ const spec5: router.Spec = {
     meta: 'meta data',
 };
 
-router().route(spec5);
+new router().route(spec5);
 
 const spec6: router.Spec = {
     method: 'GET',
@@ -85,7 +85,7 @@ const spec6: router.Spec = {
     },
 };
 
-router().route(spec6);
+new router().route(spec6);
 
 const spec7: router.Spec = {
     method: 'GET',
@@ -102,7 +102,7 @@ const spec7: router.Spec = {
     },
 };
 
-router().route(spec7);
+new router().route(spec7);
 
 const spec8: router.Spec = {
     method: 'POST',
@@ -118,21 +118,21 @@ const spec8: router.Spec = {
     },
 };
 
-router().route(spec8);
+new router().route(spec8);
 
-router().route([spec1, spec2, spec3]);
+new router().route([spec1, spec2, spec3]);
 
-router().routes.map(({ path }) => path);
+new router().routes.map(({ path }) => path);
 
 const handler1 = async (ctx: koa.Context) => {
     ctx.body = 'hello world';
 };
 
-router().get('/', handler1);
+new router().get('/', handler1);
 
-router().get('/', { meta: { desc: 'desc' } }, handler1);
+new router().get('/', { meta: { desc: 'desc' } }, handler1);
 
-router().get(
+new router().get(
     '/user',
     {
         validate: {
@@ -162,29 +162,29 @@ const spec9Handler = (ctx: koa.Context) => {
     ctx.body = ctx.request.params;
 };
 
-router().get('/user', spec9, spec9Handler);
+new router().get('/user', spec9, spec9Handler);
 
-router().router.allowedMethods({ throw: true });
+new router().router.allowedMethods({ throw: true });
 
 const middleware1 = async (ctx: koa.Context, next: koa.Next) => {
     console.log('middleware1');
     await next();
 };
 
-router().get('/', middleware1, handler1);
+new router().get('/', middleware1, handler1);
 
 const middleware2 = async (ctx: koa.Context, next: koa.Next) => {
     console.log('middleware2');
     await next();
 };
 
-router().get('/', [middleware1, middleware2], handler1);
+new router().get('/', [middleware1, middleware2], handler1);
 
-router().use(middleware1);
+new router().use(middleware1);
 
-router().use('/:id', middleware1);
+new router().use('/:id', middleware1);
 
-router().param('/:id', async (id: string, ctx: koa.Context, next: koa.Next) => {
+new router().param('/:id', async (id: string, ctx: koa.Context, next: koa.Next) => {
     ctx.state.id = id;
     await next();
 });
@@ -215,4 +215,4 @@ const config2: router.Config = {
         },
     },
 };
-router().get('/', config1, handler1);
+new router().get('/', config1, handler1);
