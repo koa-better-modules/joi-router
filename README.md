@@ -7,17 +7,18 @@ Easy, rich and fully validated [koa][] routing.
 
 ### Notes about the module and the current sversion:
 
-I'm [Imed Jaberi](https://github.com/3imed-jaberi) a koa contributor and I have maintained many koa modules and I still do it. I have made a PR  to bump the `koa/joi-router` to `v9.0.0` but it's still spooned for a long time because unavailability of the owner (@aheckmann) who owns all access permissions and the inability of the koa team to get the access for the current time and for a long time...
+I'm [Imed Jaberi](https://github.com/3imed-jaberi) a koa contributor and I have maintained many koa modules and I still do it. I have made a PR to bump the `koa/joi-router` to `v9.0.0` but it's still spooned for a long time because unavailability of the owner (@aheckmann) who owns all access permissions and the inability of the koa team to get the access for the current time and for a long time...
 For that, and for the community which wants the new updates, I publish this module.
 
 You can check the opened PR on the origin repo [here][origin-joi-router-pr].
 
 Also, I would like to make an acknowledgment for people who help and/or follow [the original PR][origin-joi-router-pr];
-  - [Jiminikiz](https://github.com/jiminikiz)
-  - [Markus Dolic](https://github.com/yelworc)
-  - [Arash Karimzadeh](https://github.com/arashkay)
-  - [jongleberry](https://github.com/jonathanong)
-  - [miwnwski](https://github.com/miwnwski)
+
+- [Jiminikiz](https://github.com/jiminikiz)
+- [Markus Dolic](https://github.com/yelworc)
+- [Arash Karimzadeh](https://github.com/arashkay)
+- [jongleberry](https://github.com/jonathanong)
+- [miwnwski](https://github.com/miwnwski)
 
 #### Features:
 
@@ -38,7 +39,7 @@ Also, I would like to make an acknowledgment for people who help and/or follow [
 
 #### Node compatibility
 
-Node.js `>= 14` is required.
+Node.js `>= 16` is required.
 
 #### Example
 

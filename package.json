@@ -21,7 +21,7 @@
     "postcheck-ts": "rimraf types-test.js"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 16"
   },
   "author": {
     "name": "Imed Jaberi",
@@ -38,27 +38,27 @@
   },
   "homepage": "https://github.com/koa-better-modules/joi-router",
   "dependencies": {
-    "@fastify/busboy": "^1.0.0",
-    "@koa/router": "^10.1.1",
+    "@fastify/busboy": "^1.2.1",
+    "@koa/router": "^12.0.0",
     "black-hole-stream": "^0.0.1",
     "clone": "^2.1.2",
     "co-body": "^6.1.0",
     "debug": "^4.3.4",
     "is-generator-function": "^1.0.10",
-    "joi": "^17.6.0"
+    "joi": "^17.9.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.18.2",
+    "@babel/eslint-parser": "^7.21.3",
     "@types/co-body": "^6.1.0",
-    "@types/koa": "^2.13.4",
-    "@types/koa__router": "^8.0.11",
-    "@types/node": "^18.0.0",
-    "eslint": "^8.17.0",
-    "koa": "^2.13.4",
-    "mocha": "^10.0.0",
+    "@types/koa": "^2.13.6",
+    "@types/koa__router": "^12.0.0",
+    "@types/node": "^18.15.11",
+    "eslint": "^8.37.0",
+    "koa": "^2.14.1",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
-    "rimraf": "^3.0.2",
-    "supertest": "^6.2.3"
+    "rimraf": "^4.4.1",
+    "supertest": "^6.3.3"
   },
   "eslintConfig": {
     "extends": [
