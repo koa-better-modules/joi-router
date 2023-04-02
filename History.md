@@ -1,9 +1,15 @@
+# 11.0.0 / 2023-04-02
+
+- fix ts types
+- bump all deps
+- drop support for node.js v14
+
 # 10.0.0 / 2022-06-04
 
 - fix vulnerability in dicer dependency (via busboy/await-busboy)
 - replace unneeded deps with local ones
 
-  # 9.0.0 / 2022-04-03
+# 9.0.0 / 2022-04-03
 
 - remove .npmignore file ❌
 - lint code through eslint 💅🏻
@@ -15,45 +21,45 @@
 - use ecmascript 6+ features ✨
 - update README.md 📋
 
-  # 8.0.0 / 2021-04-26
+# 8.0.0 / 2021-04-26
 
 - https://github.com/koajs/joi-router/compare/9fa16b6b1..0aa5c45de5
 - major bump of @koa/router from 8 to 10 - https://github.com/koajs/router/pull/77/files
 
   - impact: `router.get('*', ....)` becomes `router.get('(.*)') ....)`
 
-  # 7.0.0 / 2019-12-07
+# 7.0.0 / 2019-12-07
 
 - https://github.com/koajs/joi-router/compare/91f0a42e24c4..9fa16b6b1
 - major bump @hapi/joi@15 -> joi@17
 
   - impact: changes validation error messaging. example: https://github.com/koajs/joi-router/commit/fad66d8acbb51a5ddeb5b961b0d5d3cb9646bf65
 
-  # 6.0.1 / 2019-12-07
+# 6.0.1 / 2019-12-07
 
 - bump deps
 
-  # 6.0.0 / 2019-04-27
+# 6.0.0 / 2019-04-27
 
-  - deps; [semver-major] bump @hapi/joi from 14.x -> 15.x
-  - deps; bump eslint, supertest and switch from istanbul to nyc
-  - lint; lint all JS #65, switch from pebble to eslint:recommended, remove eslint-plugin-standard
-  - refactored; makeBodyParser #86 by swarthy
+- deps; [semver-major] bump @hapi/joi from 14.x -> 15.x
+- deps; bump eslint, supertest and switch from istanbul to nyc
+- lint; lint all JS #65, switch from pebble to eslint:recommended, remove eslint-plugin-standard
+- refactored; makeBodyParser #86 by swarthy
 
-  # 5.3.0 / 2019-03-04
+# 5.3.0 / 2019-03-04
 
-  - deps; bump await-busboy, koa-router, clone, co-body, debug
-  - docs; update description of .use() API by wdanxna
-  - tests; fix head response body check
+- deps; bump await-busboy, koa-router, clone, co-body, debug
+- docs; update description of .use() API by wdanxna
+- tests; fix head response body check
 
-  # 5.2.0 / 2019-01-12
+# 5.2.0 / 2019-01-12
 
-* added; pre-handler support #66 by swarthy
-* added; allow form and json parsing options to be configured #75 by nojacko
-* fixed; always fill ctx.invalid even when continueOnError is false #70 by alvarowolfx
-* fixed; do not parse the body if already present #76 by oprogramador
-* deps; update joi to 14.0.6 #77 by pke
-* docs; parsing options #75 by nojacko
+- added; pre-handler support #66 by swarthy
+- added; allow form and json parsing options to be configured #75 by nojacko
+- fixed; always fill ctx.invalid even when continueOnError is false #70 by alvarowolfx
+- fixed; do not parse the body if already present #76 by oprogramador
+- deps; update joi to 14.0.6 #77 by pke
+- docs; parsing options #75 by nojacko
 
 # 5.1.0 / 2018-01-02
 
