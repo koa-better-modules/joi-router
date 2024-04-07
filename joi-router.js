@@ -274,7 +274,7 @@ function checkPreHandler(spec) {
  */
 
 function isSupportedFunction(handler) {
-  assert.strictEqual('function', typeof handler, 'route handler must be a function');
+  assert.strictEqual(typeof handler, 'function', 'route handler must be a function');
 
   if (isGenFn(handler)) {
     throw new Error(`route handlers must not be GeneratorFunctions
