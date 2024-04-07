@@ -1,7 +1,9 @@
 'use strict';
 
-const assert = require('assert');
+const assert = require('node:assert');
+
 const Joi = require('joi');
+
 const helpMsg = ' -> see: https://github.com/koajs/joi-router/#validating-output';
 
 class OutputValidationRule {
