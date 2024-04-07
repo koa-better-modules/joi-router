@@ -1,3 +1,12 @@
+# 12.0.0 / 2024-04-07
+
+- use node prefix for the native node.js modules
+- fix typo on joi-router.d.ts file
+- bump all deps
+- drop support for node.js v16 and v17
+- replace black-hole-stream module with our implementation
+- remove babel eslint parser
+
 # 11.0.0 / 2023-04-02
 
 - fix ts types
