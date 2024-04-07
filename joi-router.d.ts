@@ -1,7 +1,7 @@
 // Inspired from: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/koa-joi-router
 /// <reference types="node" />
 
-import * as Koa from "Koa";
+import * as Koa from "koa";
 import * as Joi from "joi";
 import * as KoaRouter from "@koa/router";
 import * as CoBody from "co-body";

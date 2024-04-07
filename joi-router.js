@@ -12,17 +12,20 @@
 /**
  * Module dependencies.
  */
-const assert = require('assert');
+const assert = require('node:assert');
+
 const debug = require('debug')('@koa-better-modules/joi-router');
-const isGenFn = require('is-generator-function');
-const methods = require('./methods');
 const KoaRouter = require('@koa/router');
-const busboy = require('./await-busboy');
+const isGenFn = require('is-generator-function');
 const parse = require('co-body');
 const Joi = require('joi');
-const slice = require('./sliced');
+// TODO: replace this module with structuredClone once
+// we break the support for the Node.js version less than 20.
 const clone = require('clone');
 
+const methods = require('./methods');
+const busboy = require('./await-busboy');
+const slice = require('./sliced');
 const OutputValidator = require('./output-validator');
 
 /**

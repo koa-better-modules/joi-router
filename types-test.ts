@@ -1,4 +1,4 @@
-import Koa = require("Koa");
+import Koa = require("koa");
 import Router = require("./joi-router");
 
 const { Joi } = Router;

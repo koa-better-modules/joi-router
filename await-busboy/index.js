@@ -1,11 +1,9 @@
 'use strict'
 
 const Busboy = require('@fastify/busboy')
-const BlackHoleStream = require('black-hole-stream')
-const Result = require('./result')
 
-const getDescriptor = Object.getOwnPropertyDescriptor
-const isArray = Array.isArray
+const BlackHoleStream = require('./black-hole-stream')
+const Result = require('./result')
 
 module.exports = (request, options) => {
   const res = new Result()
@@ -83,7 +81,7 @@ module.exports = (request, options) => {
       fields.push(args)
 
       // don't overwrite prototypes
-      if (getDescriptor(Object.prototype, name)) return
+      if (Object.getOwnPropertyDescriptor(Object.prototype, name)) return
 
       const prev = field[name]
 
@@ -92,7 +90,7 @@ module.exports = (request, options) => {
         return
       }
 
-      if (isArray(prev)) {
+      if (Array.isArray(prev)) {
         prev.push(val)
         return
       }
