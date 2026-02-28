@@ -554,7 +554,13 @@ describe('@koa-better-modules/joi-router', () => {
                 .type('json')
                 .send(invalid)
                 .expect(200)
-                .expect(/^Unexpected token \{/, done);
+                .expect((res) => {
+                  assert(
+                    /Unexpected token/.test(res.text) || /Expected property name/.test(res.text),
+                    `expected JSON parse error, got: ${res.text}`
+                  );
+                })
+                .end(done);
             });
           });
         });
@@ -728,7 +734,7 @@ describe('@koa-better-modules/joi-router', () => {
           const app = new Koa();
           app.use(r.middleware());
 
-          const b = new Buffer(1024);
+          const b = Buffer.alloc(1024);
           b.fill('a');
 
           test(app)
@@ -799,7 +805,7 @@ describe('@koa-better-modules/joi-router', () => {
           const app = new Koa();
           app.use(r.middleware());
 
-          const b = new Buffer(1024);
+          const b = Buffer.alloc(1024);
           b.fill('a');
 
           test(app)
@@ -921,16 +927,16 @@ describe('@koa-better-modules/joi-router', () => {
     });
 
     describe('of params', () => {
-      describe('when using regex captures', () => {
+      describe('when using named param captures', () => {
         const r = new KoaJoiRouter();
 
         r.route({
           method: 'get',
-          path: '/id/(\\d+)-(\\d+)',
+          path: '/id/:first-:second',
           validate: {
             params: Joi.object().keys({
-              0: Joi.number().min(5).max(10),
-              1: Joi.number().max(1000)
+              first: Joi.number().min(5).max(10),
+              second: Joi.number().max(1000)
             })
           },
           handler: (ctx) => {
@@ -1315,7 +1321,7 @@ describe('@koa-better-modules/joi-router', () => {
         test(app).post('/').send({ hi: 'there' }).expect(400, (err) => {
           if (err) return done(err);
 
-          const b = new Buffer(1024);
+          const b = Buffer.alloc(1024);
           b.fill('a');
 
           test(app).post('/')
@@ -2209,5 +2215,486 @@ describe('@koa-better-modules/joi-router', () => {
         .expect(200);
     });
 
+  });
+
+  describe('@fastify/busboy v3', () => {
+    describe('multipart without boundary', () => {
+      it('returns an error when Content-Type has no boundary', (done) => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'post',
+          path: '/',
+          validate: { type: 'multipart' },
+          handler: (ctx) => {
+            ctx.status = 200;
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        test(app)
+          .post('/')
+          .set('Content-Type', 'multipart/form-data')
+          .send('no boundary here')
+          .expect((res) => {
+            assert(res.status >= 400, 'expected error status, got ' + res.status);
+          })
+          .end(done);
+      });
+
+      it('captures error with continueOnError when boundary is missing', (done) => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'post',
+          path: '/',
+          validate: {
+            type: 'multipart',
+            continueOnError: true
+          },
+          handler: (ctx) => {
+            ctx.status = ctx.invalid ? 200 : 500;
+            ctx.body = ctx.invalid ? 'caught' : 'missed';
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        test(app)
+          .post('/')
+          .set('Content-Type', 'multipart/form-data')
+          .send('no boundary here')
+          .expect(200)
+          .expect('caught', done);
+      });
+    });
+
+    describe('multipartOptions.limits', () => {
+      it('rejects with 413 when fields limit is exceeded', (done) => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'post',
+          path: '/',
+          validate: {
+            type: 'multipart',
+            multipartOptions: {
+              limits: { fields: 1 }
+            }
+          },
+          handler: async (ctx) => {
+            let part;
+            while ((part = await ctx.request.parts)) {
+              if (part.resume) part.resume();
+            }
+            ctx.status = 200;
+            ctx.body = 'ok';
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        test(app)
+          .post('/')
+          .field('a', '1')
+          .field('b', '2')
+          .field('c', '3')
+          .expect(413, done);
+      });
+
+      it('rejects with 413 when files limit is exceeded', (done) => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'post',
+          path: '/',
+          validate: {
+            type: 'multipart',
+            multipartOptions: {
+              limits: { files: 1 }
+            }
+          },
+          handler: async (ctx) => {
+            let part;
+            while ((part = await ctx.request.parts)) {
+              if (part.resume) part.resume();
+            }
+            ctx.status = 200;
+            ctx.body = 'ok';
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        const b = Buffer.alloc(64);
+        b.fill('x');
+
+        test(app)
+          .post('/')
+          .attach('file1', b)
+          .attach('file2', b)
+          .expect(413, done);
+      });
+
+      it('succeeds when within limits', (done) => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'post',
+          path: '/',
+          validate: {
+            type: 'multipart',
+            multipartOptions: {
+              limits: { fields: 5, files: 3 }
+            }
+          },
+          handler: async (ctx) => {
+            let part;
+            while ((part = await ctx.request.parts)) {
+              if (part.resume) part.resume();
+            }
+            ctx.status = 200;
+            ctx.body = { color: ctx.request.parts.field.color };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        test(app)
+          .post('/')
+          .field('color', 'blue')
+          .attach('file1', `${__dirname}/fixtures/koa.png`)
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.color, 'blue');
+          })
+          .end(done);
+      });
+    });
+  });
+
+  describe('@koa/router v15 (path-to-regexp v8)', () => {
+    describe('named params with delimiters', () => {
+      it('supports dash-separated named params', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/range/:from-:to',
+          validate: {
+            params: Joi.object({
+              from: Joi.number().integer().required(),
+              to: Joi.number().integer().required()
+            })
+          },
+          handler: (ctx) => {
+            ctx.body = {
+              from: ctx.request.params.from,
+              to: ctx.request.params.to
+            };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/range/1-100')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.from, 1);
+            assert.equal(res.body.to, 100);
+          });
+
+        await test(app).get('/range/abc-100')
+          .expect(400);
+      });
+
+      it('supports dot-separated named params', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/file/:name.:ext',
+          handler: (ctx) => {
+            ctx.body = {
+              name: ctx.params.name,
+              ext: ctx.params.ext
+            };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/file/report.pdf')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.name, 'report');
+            assert.equal(res.body.ext, 'pdf');
+          });
+      });
+    });
+
+    describe('optional path segments', () => {
+      it('matches with and without the optional segment', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/items{/:id}',
+          handler: (ctx) => {
+            ctx.body = {
+              id: ctx.params.id || null
+            };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/items')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.id, null);
+          });
+
+        await test(app).get('/items/42')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.id, '42');
+          });
+      });
+
+      it('validates optional params with Joi when present', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/things{/:id}',
+          validate: {
+            params: Joi.object({
+              id: Joi.number().integer().min(1).optional()
+            })
+          },
+          handler: (ctx) => {
+            ctx.body = { id: ctx.request.params.id || null };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/things')
+          .expect(200);
+
+        await test(app).get('/things/5')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.id, 5);
+          });
+
+        await test(app).get('/things/0')
+          .expect(400);
+      });
+    });
+
+    describe('trailing slash handling', () => {
+      it('matches routes with or without trailing slash by default', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/api/data',
+          handler: (ctx) => {
+            ctx.body = 'ok';
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/api/data')
+          .expect(200)
+          .expect('ok');
+
+        await test(app).get('/api/data/')
+          .expect(200)
+          .expect('ok');
+      });
+    });
+
+    describe('middleware path boundary matching', () => {
+      it('scoped middleware does not leak to similar path prefixes', async () => {
+        const r = new KoaJoiRouter();
+        let scopedRan = false;
+
+        r.use('/admin', async (ctx, next) => {
+          scopedRan = true;
+          await next();
+        });
+
+        r.get('/admin', (ctx) => {
+          ctx.body = { scopedRan };
+        });
+
+        r.get('/admin-panel', (ctx) => {
+          ctx.body = { scopedRan };
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        scopedRan = false;
+        await test(app).get('/admin')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.scopedRan, true);
+          });
+
+        scopedRan = false;
+        await test(app).get('/admin-panel')
+          .expect(200)
+          .expect((res) => {
+            assert.equal(res.body.scopedRan, false);
+          });
+      });
+    });
+
+    describe('param validation replaces regex captures', () => {
+      it('validates numeric params via Joi instead of path regex', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/user/:id',
+          validate: {
+            params: Joi.object({
+              id: Joi.number().integer().positive().required()
+            })
+          },
+          handler: (ctx) => {
+            ctx.body = { id: ctx.request.params.id };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/user/42')
+          .expect(200)
+          .expect((res) => {
+            assert.strictEqual(res.body.id, 42);
+          });
+
+        await test(app).get('/user/abc')
+          .expect(400);
+
+        await test(app).get('/user/-1')
+          .expect(400);
+      });
+
+      it('validates UUID-like params via Joi', async () => {
+        const r = new KoaJoiRouter();
+
+        r.route({
+          method: 'get',
+          path: '/resource/:uuid',
+          validate: {
+            params: Joi.object({
+              uuid: Joi.string().guid({ version: 'uuidv4' }).required()
+            })
+          },
+          handler: (ctx) => {
+            ctx.body = { uuid: ctx.request.params.uuid };
+          }
+        });
+
+        const app = new Koa();
+        app.use(r.middleware());
+
+        await test(app).get('/resource/550e8400-e29b-41d4-a716-446655440000')
+          .expect(200);
+
+        await test(app).get('/resource/not-a-uuid')
+          .expect(400);
+      });
+    });
+  });
+
+  describe('Koa v3 compatibility', () => {
+    it('async handlers work without generators', async () => {
+      const r = new KoaJoiRouter();
+
+      r.route({
+        method: 'get',
+        path: '/async-test',
+        handler: async (ctx) => {
+          const value = await Promise.resolve('async-works');
+          ctx.body = value;
+        }
+      });
+
+      const app = new Koa();
+      app.use(r.middleware());
+
+      await test(app).get('/async-test')
+        .expect(200)
+        .expect('async-works');
+    });
+
+    it('ctx.throw works correctly in async context', async () => {
+      const r = new KoaJoiRouter();
+
+      r.route({
+        method: 'get',
+        path: '/throw-test',
+        handler: async (ctx) => {
+          ctx.throw(422, 'Unprocessable');
+        }
+      });
+
+      const app = new Koa();
+      app.use(r.middleware());
+
+      await test(app).get('/throw-test')
+        .expect(422);
+    });
+
+    it('multiple async middleware chain correctly', async () => {
+      const r = new KoaJoiRouter();
+
+      r.route({
+        method: 'get',
+        path: '/chain',
+        handler: [
+          async (ctx, next) => {
+            ctx.state.order = ['first'];
+            await next();
+            ctx.state.order.push('first-after');
+            ctx.body = ctx.state.order.join(',');
+          },
+          async (ctx, next) => {
+            ctx.state.order.push('second');
+            await next();
+          },
+          async (ctx) => {
+            ctx.state.order.push('third');
+          }
+        ]
+      });
+
+      const app = new Koa();
+      app.use(r.middleware());
+
+      await test(app).get('/chain')
+        .expect(200)
+        .expect('first,second,third,first-after');
+    });
   });
 });
